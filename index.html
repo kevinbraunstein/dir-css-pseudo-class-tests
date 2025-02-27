@@ -361,6 +361,39 @@
       <my-element id="my-element-rtl-empty"></my-element>
       <p slot="my-slot-rtl-empty"></p>
     </div>
+
+    <div class="test-case">
+      <div class="label">Test Case 38: getEffectiveDir() Test</div>
+      <div class="description">Tests the getEffectiveDir() function using various elements.</div>
+      <div id="getEffectiveDirTest">
+          <p id="test1" dir="ltr">LTR Text</p>
+          <p id="test2" dir="rtl">RTL Text</p>
+          <p id="test3">No dir attribute</p>
+          <p id="test4" dir="auto">Auto with LTR content</p>
+          <p id="test5" dir="auto">مرحبا</p>
+          <p id="test6" dir="auto"></p>
+          <p id="test7" dir="rtl">Parent RTL <span id="test7child">Child</span></p>
+          <p id="test8" dir="auto">مرحبا hello</p>
+          <p id="test9" dir="auto">hello مرحبا</p>
+      </div>
+      <div id="results"></div>
+  </div>
+
+  <template id="shadow-template-get-effective-dir-test">
+    <style>
+      :dir(ltr) {
+        border: 2px dashed blue;
+      }
+      :dir(rtl) {
+        border: 2px dashed purple;
+      }
+    </style>
+    <div id="shadow-root-get-effective-dir-test">
+      <slot></slot>
+    </div>
+  </template>
+  <my-element id="my-element-get-effective-dir-test"></my-element>
+  <p id="test10" slot="my-slot-get-effective-dir-test">مرحبا</p>
   
     <script>
       class MyElement extends HTMLElement {
@@ -386,7 +419,37 @@
                 slot.parentNode.insertBefore(element, slot)
                 slot.remove();
             }
+            runGetEffectiveDirTests();
         });
+      
+        const getEffectiveDir = (element) => {
+            if (element.matches(":dir(rtl)")) {
+                return "rtl";
+            }
+            return "ltr";
+        };
+
+        function runGetEffectiveDirTests() {
+            const testDiv = document.getElementById("getEffectiveDirTest");
+            const resultsDiv = document.getElementById("results");
+            
+            const testCases = testDiv.querySelectorAll("p, span");
+            
+            let html = "";
+            for (const testCase of testCases) {
+                const id = testCase.id;
+                const effectiveDir = getEffectiveDir(testCase);
+                html += `<p>Test case "${id}": ${effectiveDir}</p>`;
+                if(id === "test10"){
+                    const shadowRoot = document.getElementById("my-element-get-effective-dir-test").shadowRoot;
+                    const testCaseInShadow = shadowRoot.getElementById("shadow-root-get-effective-dir-test").querySelector("p");
+                    const effectiveDirInShadow = getEffectiveDir(testCaseInShadow);
+                    html += `<p>Test case "${id}" in shadow root: ${effectiveDirInShadow}</p>`;
+                }
+            }
+
+            resultsDiv.innerHTML = html;
+        }
     </script>
 </body>
 </html>
