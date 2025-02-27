@@ -15,7 +15,7 @@
         }
         
         /* Styles that are applied when :dir() is not supported */
-        .dir-not-supported{
+        .dir-not-supported {
             color: red;
             border: 2px solid red;
         }
@@ -31,28 +31,28 @@
     </div>
 
     <script>
-        function onload() {
+        document.addEventListener("DOMContentLoaded", () => {
             const testElement = document.getElementById("testElement");
             const resultDiv = document.getElementById("result");
 
-            // Check if the browser supports :dir() by attempting to match an element
-            try {
-                if (testElement.matches(":dir(rtl)")) {
-                    resultDiv.innerText = ":dir() pseudo-class is supported!";
-                    resultDiv.style.color = "green";
-                } else{
+            // Delay the check to allow styles to be applied first
+            setTimeout(() => {
+                try {
+                    if (testElement.matches(":dir(rtl)")) {
+                        resultDiv.innerText = ":dir() pseudo-class is supported!";
+                        resultDiv.style.color = "green";
+                    } else {
+                        resultDiv.innerText = ":dir() pseudo-class is not supported!";
+                        resultDiv.style.color = "red";
+                        testElement.classList.add("dir-not-supported");
+                    }
+                } catch (error) {
                     resultDiv.innerText = ":dir() pseudo-class is not supported!";
                     resultDiv.style.color = "red";
-                    testElement.classList.add("dir-not-supported")
+                    testElement.classList.add("dir-not-supported");
                 }
-            } catch (error) {
-                resultDiv.innerText = ":dir() pseudo-class is not supported!";
-                resultDiv.style.color = "red";
-                testElement.classList.add("dir-not-supported")
-            }
-        }
-
-        window.onload = onload;
+            }, 100); // Delay for 100ms to allow rendering
+        });
     </script>
 </body>
 </html>
