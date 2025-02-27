@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>:dir() Pseudo-class Support Test</title>
+    <style>
+        /* Styles to be applied if :dir() is supported */
+        .dir-test:dir(ltr) {
+            color: green;
+            border: 2px solid green;
+        }
+
+        .dir-test:dir(rtl) {
+            color: blue;
+            border: 2px solid blue;
+        }
+        
+        /* Styles that are applied when :dir() is not supported */
+        .dir-not-supported{
+            color: red;
+            border: 2px solid red;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>:dir() Pseudo-class Support Test</h1>
+
+    <div id="testContainer">
+        <p id="testElement" class="dir-test" dir="rtl">This text should be blue if :dir() is supported.</p>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function onload() {
+            const testElement = document.getElementById("testElement");
+            const resultDiv = document.getElementById("result");
+
+            // Check if the browser supports :dir() by attempting to match an element
+            try {
+                if (testElement.matches(":dir(rtl)")) {
+                    resultDiv.textContent = ":dir() pseudo-class is supported!";
+                    resultDiv.style.color = "green";
+                } else{
+                    resultDiv.textContent = ":dir() pseudo-class is not supported!";
+                    resultDiv.style.color = "red";
+                    testElement.classList.add("dir-not-supported")
+                }
+            } catch (error) {
+                resultDiv.textContent = ":dir() pseudo-class is not supported!";
+                resultDiv.style.color = "red";
+                testElement.classList.add("dir-not-supported")
+            }
+            
+             // Check if the browser supports :dir() by attempting to select an element in the style
+            const isDirSupported = (() => {
+                const test = document.createElement('div');
+                try {
+                  test.matches(':dir(ltr)');
+                  return true;
+                } catch {
+                  return false;
+                } finally {
+                  test.remove();
+                }
+              })();
+            if(!isDirSupported){
+              testElement.classList.add("dir-not-supported")
+              resultDiv.textContent = ":dir() pseudo-class is not supported!";
+              resultDiv.style.color = "red";
+            }
+        }
+
+        window.onload = onload;
+    </script>
+</body>
+</html>
