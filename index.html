@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>:dir() Pseudo-class Test</title>
+    <style>
+        /* Basic styling for visual clarity */
+        body {
+            font-family: sans-serif;
+        }
+        .test-case {
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        .label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .description {
+            margin-bottom: 10px;
+            font-size: smaller;
+        }
+
+        /* Styles for :dir(ltr) and :dir(rtl) */
+        :dir(ltr) {
+            border-left: 5px solid green;
+        }
+        :dir(rtl) {
+            border-right: 5px solid red;
+        }
+        
+        .auto-dir {
+           border: 2px dashed blue;
+           padding: 5px;
+        }
+        .auto-dir:dir(rtl){
+          background-color: #ffe6e6;
+        }
+        .auto-dir:dir(ltr){
+          background-color: #e6ffe6;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>:dir() Pseudo-class Test Cases</h1>
+
+    <div class="test-case">
+        <div class="label">Test Case 1: Explicit ltr</div>
+        <div class="description">Demonstrates :dir(ltr) matching on an element with dir="ltr".</div>
+        <p dir="ltr">This text is explicitly left-to-right.</p>
+    </div>
+
+    <div class="test-case">
+        <div class="label">Test Case 2: Explicit rtl</div>
+        <div class="description">Demonstrates :dir(rtl) matching on an element with dir="rtl".</div>
+        <p dir="rtl">This text is explicitly right-to-left.</p>
+    </div>
+
+    <div class="test-case">
+        <div class="label">Test Case 3: Implicit ltr (No dir attribute)</div>
+        <div class="description">Demonstrates :dir(ltr) matching on an element with no dir attribute (default behavior).</div>
+        <p>This text has no dir attribute and is implicitly left-to-right.</p>
+    </div>
+
+    <div class="test-case">
+        <div class="label">Test Case 4: Inherited ltr</div>
+        <div class="description">Demonstrates :dir(ltr) matching on an element that inherits directionality from a parent with dir="ltr".</div>
+        <div dir="ltr">
+            <p>This text inherits left-to-right directionality.</p>
+        </div>
+    </div>
+
+    <div class="test-case">
+        <div class="label">Test Case 5: Inherited rtl</div>
+        <div class="description">Demonstrates :dir(rtl) matching on an element that inherits directionality from a parent with dir="rtl".</div>
+        <div dir="rtl">
+            <p>This text inherits right-to-left directionality.</p>
+        </div>
+    </div>
+
+    <div class="test-case">
+        <div class="label">Test Case 6: auto with LTR content</div>
+        <div class="description">Demonstrates :dir(ltr) matching on an element with dir="auto" and content that resolves to left-to-right.</div>
+        <p dir="auto">This text is auto-detected as ltr.</p>
+    </div>
+
+    <div class="test-case">
+        <div class="label">Test Case 7: auto with RTL content</div>
+        <div class="description">Demonstrates :dir(rtl) matching on an element with dir="auto" and content that resolves to right-to-left.</div>
+        <p dir="auto">مرحبا.</p>
+    </div>
+
+    <div class="test-case">
+        <div class="label">Test Case 8: auto with mixed content (leading with RTL)}</div>
+        <div class="description">Demonstrates :dir(rtl) matching when "auto" finds an arabic char before an english char.</div>
+        <p dir="auto">مرحبا hello</p>
+    </div>
+
+    <div class="test-case">
+        <div class="label">Test Case 9: auto with mixed content (leading with LTR)</div>
+        <div class="description">Demonstrates :dir(ltr) matching when "auto" finds an english char before an arabic char.</div>
+        <p dir="auto">hello مرحبا</p>
+    </div>
+
+    <div class="test-case">
+      <div class="label">Test Case 10: auto with empty content</div>
+      <div class="description">Demonstrates default :dir(ltr) matching when content is empty and dir is auto.</div>
+      <p dir="auto"></p>
+    </div>
+
+    <div class="test-case">
+      <div class="label">Test Case 11: auto with empty content inside parent with RTL</div>
+      <div class="description">Demonstrates that an empty auto element will inherit the direction from the parent.</div>
+      <div dir="rtl">
+        <p dir="auto"></p>
+      </div>
+    </div>
+    
+    <div class="test-case">
+      <div class="label">Test Case 12: Input type text with auto and LTR content</div>
+      <div class="description">Demonstrates that input type text will be matched to :dir(ltr) if it contains only ltr chars.</div>
+      <input type="text" dir="auto" value="Hello"/>
+    </div>
+    
+    <div class="test-case">
+      <div class="label">Test Case 13: Input type text with auto and RTL content</div>
+      <div class="description">Demonstrates that input type text will be matched to :dir(rtl) if it contains a rtl char before a ltr char.</div>
+      <input type="text" dir="auto" value="مرحبا"/>
+    </div>
+
+    <div class="test-case">
+      <div class="label">Test Case 14: Input type text with auto and Mixed content RTL leading</div>
+      <div class="description">Demonstrates that input type text will be matched to :dir(rtl) if it contains a rtl char before a ltr char.</div>
+      <input type="text" dir="auto" value="مرحبا hello"/>
+    </div>
+      
+    <div class="test-case">
+      <div class="label">Test Case 15: Input type text with auto and Mixed content LTR leading</div>
+      <div class="description">Demonstrates that input type text will be matched to :dir(ltr) if it contains a ltr char before a rtl char.</div>
+      <input type="text" dir="auto" value="hello مرحبا"/>
+    </div>
+    
+    <div class="test-case">
+      <div class="label">Test Case 16: Input type text with auto and Empty content</div>
+      <div class="description">Demonstrates that input type text will be matched to :dir(ltr) if it is empty</div>
+      <input type="text" dir="auto" value=""/>
+    </div>
+    
+    <div class="test-case">
+      <div class="label">Test Case 17: Text area with auto and LTR content</div>
+      <div class="description">Demonstrates that textarea will be matched to :dir(ltr) if it contains only ltr chars.</div>
+      <textarea dir="auto">Hello</textarea>
+    </div>
+    
+    <div class="test-case">
+      <div class="label">Test Case 18: Text area with auto and RTL content</div>
+      <div class="description">Demonstrates that textarea will be matched to :dir(rtl) if it contains a rtl char before a ltr char.</div>
+      <textarea dir="auto">مرحبا</textarea>
+    </div>
+
+    <div class="test-case">
+      <div class="label">Test Case 19: Text area with auto and Mixed content RTL leading</div>
+      <div class="description">Demonstrates that textarea will be matched to :dir(rtl) if it contains a rtl char before a ltr char.</div>
+      <textarea dir="auto">مرحبا hello</textarea>
+    </div>
+      
+    <div class="test-case">
+      <div class="label">Test Case 20: Text area with auto and Mixed content LTR leading</div>
+      <div class="description">Demonstrates that textarea will be matched to :dir(ltr) if it contains a ltr char before a rtl char.</div>
+      <textarea dir="auto">hello مرحبا</textarea>
+    </div>
+    
+    <div class="test-case">
+      <div class="label">Test Case 21: Text area with auto and Empty content</div>
+      <div class="description">Demonstrates that textarea will be matched to :dir(ltr) if it is empty</div>
+      <textarea dir="auto"></textarea>
+    </div>
+    
+    <div class="test-case">
+      <div class="label">Test Case 22: Bdi element with RTL content</div>
+      <div class="description">Demonstrates that bdi element takes content into account when it's parent is undefined.</div>
+      <bdi dir="undefined">مرحبا</bdi>
+    </div>
+    
+    <div class="test-case">
+      <div class="label">Test Case 23: Bdi element with LTR content</div>
+      <div class="description">Demonstrates that bdi element takes content into account when it's parent is undefined.</div>
+      <bdi dir="undefined">Hello</bdi>
+    </div>
+    
+    <div class="test-case">
+      <div class="label">Test Case 24: Bdi element with Mixed content RTL leading</div>
+      <div class="description">Demonstrates that bdi element takes content into account when it's parent is undefined.</div>
+      <bdi dir="undefined">مرحبا hello</bdi>
+    </div>
+    
+    <div class="test-case">
+      <div class="label">Test Case 25: Bdi element with Mixed content LTR leading</div>
+      <div class="description">Demonstrates that bdi element takes content into account when it's parent is undefined.</div>
+      <bdi dir="undefined">hello مرحبا</bdi>
+    </div>
+    
+    <div class="test-case">
+      <div class="label">Test Case 26: Bdi element with empty content</div>
+      <div class="description">Demonstrates that bdi element defaults to LTR if content is empty and direction is undefined.</div>
+      <bdi dir="undefined"></bdi>
+    </div>
+    
+    <div class="test-case">
+      <div class="label">Test Case 27: Bdi element with empty content and rtl parent</div>
+      <div class="description">Demonstrates that bdi element will still look at the content when it has a parent, even if the parent is rtl.</div>
+      <div dir="rtl">
+        <bdi dir="undefined"></bdi>
+      </div>
+    </div>
+    
+    <div class="test-case">
+      <div class="label">Test Case 28: Bdi element with rtl content and rtl parent</div>
+      <div class="description">Demonstrates that bdi element will still look at the content when it has a parent.</div>
+      <div dir="rtl">
+        <bdi dir="undefined">مرحبا</bdi>
+      </div>
+    </div>
+
+    <div class="test-case">
+      <div class="label">Test Case 29: Bdi element with ltr content and rtl parent</div>
+      <div class="description">Demonstrates that bdi element will still look at the content when it has a parent.</div>
+      <div dir="rtl">
+        <bdi dir="undefined">hello</bdi>
+      </div>
+    </div>
+
+    <div class="test-case">
+        <div class="label">Test Case 30: nested auto directionality test</div>
+        <div class="description">Demonstrates a paragraph with auto directionality containing multiple spans with their own auto directionality.</div>
+        <p dir="auto" class="auto-dir">
+          <span dir="auto" class="auto-dir">Hello world </span>
+          <span dir="auto" class="auto-dir"> مرحبا </span>
+          <span dir="auto" class="auto-dir">Another span </span>
+        </p>
+    </div>
+  
+    <div class="test-case">
+      <div class="label">Test Case 31: Slotted element with RTL content in a LTR shadow root</div>
+      <div class="description">Demonstrates :dir(rtl) matching on a slotted element with RTL content in an LTR shadow root.</div>
+      <template id="shadow-template-ltr">
+        <style>
+          :dir(rtl){
+            border: 2px dashed purple;
+          }
+        </style>
+        <div>
+          <slot></slot>
+        </div>
+      </template>
+      <my-element id="my-element-ltr"></my-element>
+      <p slot="my-slot-ltr">مرحبا</p>
+    </div>
+  
+    <div class="test-case">
+      <div class="label">Test Case 32: Slotted element with LTR content in a LTR shadow root</div>
+      <div class="description">Demonstrates :dir(ltr) matching on a slotted element with LTR content in an LTR shadow root.</div>
+      <template id="shadow-template-ltr-2">
+        <style>
+          :dir(ltr){
+            border: 2px dashed blue;
+          }
+        </style>
+        <div>
+          <slot></slot>
+        </div>
+      </template>
+      <my-element id="my-element-ltr-2"></my-element>
+      <p slot="my-slot-ltr-2">Hello</p>
+    </div>
+
+    <div class="test-case">
+      <div class="label">Test Case 33: Slotted element with RTL content in a RTL shadow root</div>
+      <div class="description">Demonstrates :dir(rtl) matching on a slotted element with RTL content in an RTL shadow root.</div>
+      <template id="shadow-template-rtl">
+        <style>
+          :dir(rtl){
+            border: 2px dashed purple;
+          }
+        </style>
+        <div dir="rtl">
+          <slot></slot>
+        </div>
+      </template>
+      <my-element id="my-element-rtl"></my-element>
+      <p slot="my-slot-rtl">مرحبا</p>
+    </div>
+
+    <div class="test-case">
+      <div class="label">Test Case 34: Slotted element with LTR content in a RTL shadow root</div>
+      <div class="description">Demonstrates :dir(ltr) matching on a slotted element with LTR content in an RTL shadow root.</div>
+      <template id="shadow-template-rtl-2">
+        <style>
+          :dir(ltr){
+            border: 2px dashed blue;
+          }
+        </style>
+        <div dir="rtl">
+          <slot></slot>
+        </div>
+      </template>
+      <my-element id="my-element-rtl-2"></my-element>
+      <p slot="my-slot-rtl-2">Hello</p>
+    </div>
+    
+    <div class="test-case">
+      <div class="label">Test Case 35: Slotted element with mixed content RTL leading in a RTL shadow root</div>
+      <div class="description">Demonstrates :dir(rtl) matching on a slotted element with mixed content RTL leading in an RTL shadow root.</div>
+      <template id="shadow-template-rtl-mixed-1">
+        <style>
+          :dir(rtl){
+            border: 2px dashed purple;
+          }
+        </style>
+        <div dir="rtl">
+          <slot></slot>
+        </div>
+      </template>
+      <my-element id="my-element-rtl-mixed-1"></my-element>
+      <p slot="my-slot-rtl-mixed-1">مرحبا hello</p>
+    </div>
+
+    <div class="test-case">
+      <div class="label">Test Case 36: Slotted element with mixed content LTR leading in a RTL shadow root</div>
+      <div class="description">Demonstrates :dir(ltr) matching on a slotted element with mixed content LTR leading in an RTL shadow root.</div>
+      <template id="shadow-template-rtl-mixed-2">
+        <style>
+          :dir(ltr){
+            border: 2px dashed blue;
+          }
+        </style>
+        <div dir="rtl">
+          <slot></slot>
+        </div>
+      </template>
+      <my-element id="my-element-rtl-mixed-2"></my-element>
+      <p slot="my-slot-rtl-mixed-2">hello مرحبا</p>
+    </div>
+
+    <div class="test-case">
+      <div class="label">Test Case 37: Slotted element with empty content in a RTL shadow root</div>
+      <div class="description">Demonstrates :dir(ltr) matching on a slotted element with empty content in an RTL shadow root.</div>
+      <template id="shadow-template-rtl-empty">
+        <style>
+          :dir(ltr){
+            border: 2px dashed blue;
+          }
+        </style>
+        <div dir="rtl">
+          <slot></slot>
+        </div>
+      </template>
+      <my-element id="my-element-rtl-empty"></my-element>
+      <p slot="my-slot-rtl-empty"></p>
+    </div>
+  
+    <script>
+      class MyElement extends HTMLElement {
+        constructor() {
+          super();
+          const templateId = this.id.replace("my-element", "shadow-template");
+          const template = document.getElementById(templateId);
+          const shadowRoot = this.attachShadow({ mode: 'open' });
+          shadowRoot.appendChild(template.content.cloneNode(true));
+        }
+      }
+      customElements.define('my-element', MyElement);
+        
+        // Wait for custom elements to be defined before getting the slot elements
+        window.addEventListener('DOMContentLoaded', () => {
+            const slottedElements = document.querySelectorAll('[slot]');
+            for (let i = 0; i < slottedElements.length; i++) {
+                const element = slottedElements[i];
+                const slotName = element.getAttribute('slot');
+                const myElementId = "my-element-" + slotName.replace("my-slot-", "");
+                const hostElement = document.getElementById(myElementId);
+                const slot = hostElement.shadowRoot.querySelector(`slot[name="${slotName}"]`)
+                slot.parentNode.insertBefore(element, slot)
+                slot.remove();
+            }
+        });
+    </script>
+</body>
+</html>
