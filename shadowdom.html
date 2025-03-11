@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Shadow DOM :dir() Tests</title>
+  <style>
+    /* Style elements with dir="rtl" differently */
+    :dir(rtl) {
+      background-color: lightgreen;
+      padding: 10px;
+      border: 2px solid darkgreen;
+    }
+
+    /* Style elements with dir="ltr" differently */
+    :dir(ltr) {
+      background-color: lightblue;
+      padding: 10px;
+      border: 2px solid darkblue;
+    }
+
+    div {
+      margin: 10px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="host1" dir="rtl"><span> 3 4 </span></div>
+  <div id="host2" dir="rtl"><span> 3 4 </span></div>
+  <div id="host3" dir="rtl"><span> 3 4 </span></div>
+  <div id="host4" dir="auto"><span> 1 2 </span></div>
+  <div id="host5" dir="auto"><span> &#1571;&#1582;&#1576;&#1575;&#1585; </span></div>
+  <div id="host6" dir="ltr"><span>English Text</span></div>
+  <div id="host7" dir="rtl"><span>&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;</span></div>
+  <div id="host8" dir="auto"><span>Mixed Text &#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577; more text</span></div>
+  <div id="host9" dir="auto"><span>123</span></div>
+  <div id="host10" dir="auto"><span>&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577; 123</span></div>
+  <div id="host11" dir="rtl"><span id="slottedSpan">Slotted RTL</span></div>
+  <div id="host12" dir="ltr"><span id="slottedSpan2">Slotted LTR</span></div>
+  <div id="host13" dir="auto"><span id="slottedSpan3">&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;</span></div>
+  <div id="host14" dir="auto"><span id="slottedSpan4">English</span></div>
+  <div id="host15" dir="auto"><span><span id="slottedSpan5">nested content</span></span></div>
+
+  <script>
+    const host1 = document.getElementById('host1');
+    const shadowRoot1 = host1.attachShadow({ mode: 'closed' });
+    shadowRoot1.innerHTML = '<div> 1 2 <span><slot></slot></span></div>';
+
+    const host2 = document.getElementById('host2');
+    const shadowRoot2 = host2.attachShadow({ mode: 'closed' });
+    shadowRoot2.innerHTML = '<div> 1 2 <span dir="ltr"><slot></slot></span></div>';
+
+    const host3 = document.getElementById('host3');
+    const shadowRoot3 = host3.attachShadow({ mode: 'closed' });
+    shadowRoot3.innerHTML = '<div> 1 2 <span><slot dir="ltr"></slot></span></div>';
+
+    const host4 = document.getElementById('host4');
+    const shadowRoot4 = host4.attachShadow({ mode: 'closed' });
+    shadowRoot4.innerHTML = '<div> &#1571;&#1582;&#1576;&#1575;&#1585; <span><slot></slot></span></div>';
+
+    const host5 = document.getElementById('host5');
+    const shadowRoot5 = host5.attachShadow({ mode: 'closed' });
+    shadowRoot5.innerHTML = '<div> 1 2 <span><slot></slot></span></div>';
+
+    const host6 = document.getElementById('host6');
+    const shadowRoot6 = host6.attachShadow({ mode: 'closed' });
+    shadowRoot6.innerHTML = `<div>Shadow content <span><slot></slot></span></div>`;
+
+    const host7 = document.getElementById('host7');
+    const shadowRoot7 = host7.attachShadow({ mode: 'closed' });
+    shadowRoot7.innerHTML = `<div>Shadow content <span><slot></slot></span></div>`;
+
+    const host8 = document.getElementById('host8');
+    const shadowRoot8 = host8.attachShadow({ mode: 'closed' });
+    shadowRoot8.innerHTML = `<div>Shadow content <span><slot></slot></span></div>`;
+
+    const host9 = document.getElementById('host9');
+    const shadowRoot9 = host9.attachShadow({ mode: 'closed' });
+    shadowRoot9.innerHTML = `<div>Shadow content <span><slot></slot></span></div>`;
+
+    const host10 = document.getElementById('host10');
+    const shadowRoot10 = host10.attachShadow({ mode: 'closed' });
+    shadowRoot10.innerHTML = `<div>Shadow content <span><slot></slot></span></div>`;
+
+    const host11 = document.getElementById('host11');
+    const shadowRoot11 = host11.attachShadow({ mode: 'closed' });
+    shadowRoot11.innerHTML = `<div>Shadow content <span id="shadowSlot"><slot></slot></span></div>`;
+    const slot11 = shadowRoot11.getElementById('shadowSlot');
+
+    const host12 = document.getElementById('host12');
+    const shadowRoot12 = host12.attachShadow({ mode: 'closed' });
+    shadowRoot12.innerHTML = `<div>Shadow content <span id="shadowSlot2"><slot></slot></span></div>`;
+
+    const host13 = document.getElementById('host13');
+    const shadowRoot13 = host13.attachShadow({ mode: 'closed' });
+    shadowRoot13.innerHTML = `<div>Shadow content <span id="shadowSlot3"><slot></slot></span></div>`;
+
+    const host14 = document.getElementById('host14');
+    const shadowRoot14 = host14.attachShadow({ mode: 'closed' });
+    shadowRoot14.innerHTML = `<div>Shadow content <span id="shadowSlot4"><slot></slot></span></div>`;
+
+    const host15 = document.getElementById('host15');
+    const shadowRoot15 = host15.attachShadow({ mode: 'closed' });
+    shadowRoot15.innerHTML = `<div>Shadow content <span id="shadowSlot5"><slot></slot></span></div>`;
+
+  </script>
+
+</body>
+
+</html>
